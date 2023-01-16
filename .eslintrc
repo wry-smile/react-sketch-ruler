@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@wry-smile/eslint-config-react"
+  ]
+}

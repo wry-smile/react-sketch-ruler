@@ -1,6 +1,6 @@
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
-import type { CanvasConfigs, MenuColorProfile, SketchRuleProps } from './types/index'
+import type { CanvasConfigs, MenuColorProfile, RulerWrapperProps, SketchRuleProps } from './types/index'
 import { StyledRuler } from './styles'
 import RulerWrapper from './RulerWrapper'
 import RulerContextMenu from './RulerContextMenu'
@@ -37,7 +37,7 @@ const SKETCH_RULE_DEFAULT_PROPS: Partial<SketchRuleProps> = {
   },
   lang: 'zh-CN',
   palette: {
-    bgColor: '',
+    bgColor: '#fff',
     // ruler longer mark color
     longFGColor: '#BABBBC',
     // ruler shorter mark color
@@ -53,7 +53,7 @@ const SKETCH_RULE_DEFAULT_PROPS: Partial<SketchRuleProps> = {
   },
 }
 
-const SketchRule = (props: SketchRuleProps) => {
+const SketchRule = (props: Partial<SketchRuleProps>) => {
   props = { ...SKETCH_RULE_DEFAULT_PROPS, ...props }
   const [canvasConfigs, setCanvasConfigs] = useState<CanvasConfigs>(() => {
     const { ratio, palette } = props
@@ -105,7 +105,7 @@ const SketchRule = (props: SketchRuleProps) => {
   }
 
   const render = () => {
-    const { scale, isShowReferLine, thick, width, height, startX, startY, horLineArr, shadow, lang, verLineArr, cornerActive, isOpenMenuFeature, palette: { bgColor }, onCornerClick, handleShowRuler, handleLine, handleShowReferLine } = props
+    const { scale, isShowReferLine, thick, width, height, startX, startY, horLineArr, shadow, lang, verLineArr, cornerActive, isOpenMenuFeature, palette: { bgColor } = {}, onCornerClick, handleShowRuler, handleLine, handleShowReferLine } = props
 
     const commonProps = {
       scale,
@@ -114,33 +114,35 @@ const SketchRule = (props: SketchRuleProps) => {
       onShowRightMenu,
       isShowReferLine,
       handleShowReferLine,
-    }
+    } as RulerWrapperProps
 
-    const { x, y, width: w, height: h } = shadow
+    const { x, y, width: w, height: h } = shadow!
 
     const menuPosition = {
       left: positionRecord.x,
       top: positionRecord.y,
     }
-    return <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine} thick={thick} {...canvasConfigs}
+
+    // console.log({ width, height, thick })
+    return <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine!} thick={thick!} {...canvasConfigs}
       onContextMenu={handleStyleRulerContextMenu}>
       {/* 水平方向 */}
-      <RulerWrapper vertical={vertical} width={width} height={thick} start={startX} lines={horLineArr} selectStart={x!} selectLength={w!} {...commonProps} />
+      <RulerWrapper {...commonProps} vertical={vertical} width={width!} height={thick!} start={startX!} lines={horLineArr!} selectStart={x!} selectLength={w!} />
       {/* 竖直方向 */}
-      <RulerWrapper width={thick} height={height} start={startY} lines={verLineArr} selectStart={y!} selectLength={h!} vertical {...commonProps} />
+      <RulerWrapper {...commonProps} width={thick!} height={height!} start={startY!} lines={verLineArr!} selectStart={y!} selectLength={h!} vertical />
       <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />
       {isOpenMenuFeature && isShowMenu
         && <RulerContextMenu
           key={String(menuPosition.left) + String(menuPosition.top)}
-          lang={lang}
+          lang={lang!}
           vertical={vertical}
-          handleLine={handleLine}
-          horLineArr={horLineArr}
-          verLineArr={verLineArr}
+          handleLine={handleLine!}
+          horLineArr={horLineArr!}
+          verLineArr={verLineArr!}
           menuPosition={menuPosition}
-          handleShowRuler={handleShowRuler}
-          isShowReferLine={isShowReferLine}
-          handleShowReferLine={handleShowReferLine}
+          handleShowRuler={handleShowRuler!}
+          isShowReferLine={isShowReferLine!}
+          handleShowReferLine={handleShowReferLine!}
           onCloseMenu={onHandleCloseMenu}
           menuConfigs={menuConfigs}
         />
@@ -149,7 +151,5 @@ const SketchRule = (props: SketchRuleProps) => {
   }
   return render()
 }
-
-export default SketchRule
 
 export { SketchRule }

@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components'
-import { MenuColorProfile } from './types'
+import type { MenuColorProfile } from './types'
 
 const openMenu = keyframes`
   from {
@@ -22,7 +22,13 @@ const closeMenu = keyframes`
   }
 `
 
-export const StyleMenu = styled.div<{ menuConfigs: MenuColorProfile }>`
+export const StyleMenu = styled.div<{
+  menuConfigs: MenuColorProfile
+  style: object
+  showReferLine: boolean
+  lang: 'en' | 'zh-CN'
+  id: string
+}>`
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -45,7 +51,7 @@ export const StyleMenu = styled.div<{ menuConfigs: MenuColorProfile }>`
   .divider {
     margin: 4px 12px;
     border-top: 1px solid ${props => props.menuConfigs.dividerColor};
-    min-width: ${props => props.lang === 'ch' ? '82%' : '87%'};
+    min-width: ${props => props.lang === 'zh-CN' ? '82%' : '87%'};
   }
   .menu-content {
     font-size: 12px;

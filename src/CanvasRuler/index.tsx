@@ -16,7 +16,7 @@ const CanvasRuler = (props: CanvasRulerProps) => {
 
     // 比例宽高
     canvasEl.current!.width = width * ratio
-    canvasEl.current!.width = height * ratio
+    canvasEl.current!.height = height * ratio
 
     const ctx = canvasEl.current!.getContext('2d')!
     ctx.font = `${12 * ratio}px -apple-system, "Helvetica Neue", ".SFNSText-Regular", "SF UI Text", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif`

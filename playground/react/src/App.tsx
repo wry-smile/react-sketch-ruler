@@ -1,6 +1,7 @@
 import type { ReactEventHandler } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { SketchRule as ReactRuler } from '../../../src/index'
+import { SketchRule as ReactRuler } from 'react-sketch-ruler'
+
 import './App.css'
 const thick = 16
 

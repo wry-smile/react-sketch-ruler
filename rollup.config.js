@@ -1,34 +1,43 @@
-import babel from 'rollup-plugin-babel'
-import commonjs from 'rollup-plugin-commonjs'
-import external from 'rollup-plugin-peer-deps-external'
-import resolve from 'rollup-plugin-node-resolve'
-import url from 'rollup-plugin-url'
+import babel from '@rollup/plugin-babel'
+import commonjs from '@rollup/plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import url from '@rollup/plugin-url'
 import { defineConfig } from 'rollup'
-import typescript from 'rollup-plugin-typescript'
+import typescript from '@rollup/plugin-typescript'
+import dts from 'rollup-plugin-dts'
 
-export default defineConfig({
-  input: 'src/index.js',
-  output: [
-    {
-      file: 'index.js',
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: 'index.mjs',
-      format: 'es',
-      sourcemap: true,
-    },
-  ],
-  plugins: [
-    typescript({
-    }),
-    external(),
-    url(),
-    babel({
-      exclude: 'node_modules/**',
-    }),
-    resolve(),
-    commonjs(),
-  ],
-})
+export default defineConfig([
+  {
+    input: './src/index.tsx',
+    output: [
+      {
+        file: './dist/index.js',
+        format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: './dist/index.mjs',
+        format: 'es',
+        sourcemap: true,
+      },
+    ],
+
+    external: ['styled-components', 'react', 'react-dom'],
+    plugins: [
+      typescript(),
+      commonjs(),
+      url(),
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      resolve(),
+      // dts(),
+    ],
+  },
+  {
+    input: './src/index.tsx',
+    output: [{ file: './dist/index.d.ts', format: 'es' }],
+    plugins: [dts()],
+  },
+])
+

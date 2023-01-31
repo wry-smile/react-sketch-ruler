@@ -1,34 +1,123 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import type { ReactEventHandler } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { SketchRule as ReactRuler } from '../../../src/index'
 import './App.css'
+const thick = 16
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [scale, setScale] = useState(2)
+  const [startX, setStartX] = useState(0)
+  const [startY, setStartY] = useState(0)
+  const [lines, setLines] = useState<Record<'h' | 'v', number[]>>({ h: [100, 200], v: [100, 200] })
+  const [lang, setLang] = useState<'en' | 'zh-CN'>('zh-CN')
+  const [isShowRuler, setIsShowRuler] = useState(true)
+  const [isShowReferLine, setIsShowReferLine] = useState(true)
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const appRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = () => {
+    const screensRect = document.querySelector('#screens')?.getBoundingClientRect()
+    const canvasRect = document.querySelector('#canvas')?.getBoundingClientRect()
+
+    // 标尺开始的刻度
+    const startX = ((screensRect?.left || 0) + thick - (canvasRect?.left || 0)) / scale
+    const startY = ((screensRect?.top || 0) + thick - (canvasRect?.top || 0)) / scale
+    setStartX(startX)
+    setStartY(startY)
+  }
+
+  const handleWheel: ReactEventHandler<HTMLDivElement> = (event) => {
+    if ((event as unknown as WheelEvent).ctrlKey || (event as unknown as WheelEvent).metaKey) {
+      event.stopPropagation()
+      const nextScale = parseFloat(Math.max(0.2, scale - (event as unknown as WheelEvent).deltaY / 500).toFixed(2))
+      setScale(nextScale)
+    }
+  }
+
+  const handleLine = (lines: Record<'h' | 'v', number[]>) => {
+    setLines(lines)
+  }
+
+  const handleChangeEn = () => {
+    setLang('en')
+  }
+
+  const handleChangeCh = () => {
+    setLang('zh-CN')
+  }
+
+  // 显示/隐藏标尺
+  const handleShowRuler = () => {
+    setIsShowRuler(!isShowRuler)
+  }
+
+  // 显示/隐藏参考线
+  const handleShowReferLine = () => {
+    setIsShowReferLine(!isShowReferLine)
+  }
+
+  const handleCornerClick = () => {
+
+  }
+
+  const render = () => {
+    const { h, v } = lines
+
+    const rectWidth = 160
+    const rectHeight = 200
+
+    const canvasStyle = {
+      width: rectWidth,
+      height: rectHeight,
+      transform: `scale(${scale})`,
+    }
+
+    const shadow = {
+      x: 0,
+      y: 0,
+      width: rectWidth,
+      height: rectHeight,
+    }
+
+    return <div className="wrapper">
+      <button className="button" onClick={handleShowRuler}>{!isShowRuler ? '显示' : '隐藏'}标尺</button>
+      <button className="button-ch" onClick={handleChangeCh}>中</button>
+      <button className="button-en" onClick={handleChangeEn}>英</button>
+      <div className="scale-value">{`scale: ${scale}`}</div>
+      {
+        isShowRuler
+        && <ReactRuler
+          lang={lang}
+          thick={thick}
+          scale={scale}
+          width={582}
+          height={482}
+          startX={startX}
+          startY={startY}
+          shadow={shadow}
+          horLineArr={h}
+          verLineArr={v}
+          handleLine={handleLine}
+          cornerActive={true}
+          onCornerClick={handleCornerClick}
+
+          // 右键菜单props
+          isOpenMenuFeature={true}
+          handleShowRuler={handleShowRuler}
+          isShowReferLine={isShowReferLine}
+          handleShowReferLine={handleShowReferLine}
+        />
+      }
+      <div ref={appRef} id="screens" onScroll={handleScroll} onWheel={handleWheel}>
+        <div ref={containerRef} className="screen-container">
+          <div id="canvas" style={canvasStyle} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  }
+
+  return render()
 }
 
 export default App

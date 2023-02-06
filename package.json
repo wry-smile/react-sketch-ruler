@@ -1,5 +1,5 @@
 {
-  "name": "react-sketch-ruler",
+  "name": "@wry-smile/react-sketch-ruler",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -22,7 +22,8 @@
   ],
   "scripts": {
     "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "publish": "pnpm build && releaseKit"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -40,6 +41,7 @@
     "@types/react-dom": "^18.0.9",
     "@types/styled-components": "^5.1.26",
     "@wry-smile/eslint-config-react": "^0.1.14",
+    "@wry-smile/release-kit": "^1.1.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
     "babel-plugin-external-helpers": "^6.22.0",

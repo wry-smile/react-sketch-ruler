@@ -10,6 +10,8 @@ const CanvasRuler = (props: CanvasRulerProps) => {
 
   const [canvasContext, setCanvasContext] = useState<Nullable<CanvasRenderingContext2D>>()
 
+  const [prevPropsWidthHeight, setPrevPropsWidthHeight] = useState<Record<'width' | 'height', number>>({ width: 0, height: 0 })
+
   const updateCanvasContext = () => {
     const { width, height, canvasConfigs } = props
     const { ratio } = canvasConfigs
@@ -65,18 +67,25 @@ const CanvasRuler = (props: CanvasRulerProps) => {
     props.onIndicatorHide()
   }
 
+  // component did mount
   useEffect(() => {
     setCanvasContext(canvasEl.current?.getContext('2d'))
     updateCanvasContext()
     drawRuler()
   }, [])
 
+  // component props happend change
   useEffect(() => {
-    updateCanvasContext()
+    setPrevPropsWidthHeight({ width: props.width, height: props.height })
   }, [props.width, props.height])
 
+  // component did update
   useEffect(() => {
-    drawRuler()
+    if (canvasEl.current) {
+      if (prevPropsWidthHeight.width !== props.width || prevPropsWidthHeight.height !== props.height)
+        updateCanvasContext()
+      drawRuler()
+    }
   })
 
   return <canvas className="ruler"

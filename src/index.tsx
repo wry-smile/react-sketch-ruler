@@ -31,13 +31,13 @@ const SKETCH_RULE_DEFAULT_PROPS: Partial<SketchRuleProps> = {
   ratio: window.devicePixelRatio || 1,
   shadow: {
     x: 200,
-    y: 10,
+    y: 100,
     width: 200,
     height: 400,
   },
   lang: 'zh-CN',
   palette: {
-    bgColor: '#fff',
+    bgColor: 'rgba(225,225,225, 0)',
     // ruler longer mark color
     longFGColor: '#BABBBC',
     // ruler shorter mark color
@@ -127,7 +127,7 @@ const SketchRule = (props: Partial<SketchRuleProps>) => {
     return <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine!} thick={thick!} {...canvasConfigs}
       onContextMenu={handleStyleRulerContextMenu}>
       {/* 水平方向 */}
-      <RulerWrapper {...commonProps} vertical={vertical} width={width!} height={thick!} start={startX!} lines={horLineArr!} selectStart={x!} selectLength={w!} />
+      <RulerWrapper {...commonProps} width={width!} height={thick!} start={startX!} lines={horLineArr!} selectStart={x!} selectLength={w!} />
       {/* 竖直方向 */}
       <RulerWrapper {...commonProps} width={thick!} height={height!} start={startY!} lines={verLineArr!} selectStart={y!} selectLength={h!} vertical />
       <a className={`corner${cornerActive ? ' active' : ''}`} style={{ backgroundColor: bgColor }} onClick={onCornerClick} />

@@ -23,7 +23,7 @@
   "scripts": {
     "dev": "rollup -c -w",
     "build": "rollup -c",
-    "release": "pnpm build && releaseKit"
+    "release": "pnpm build && releaseKit && npm publish --access public"
   },
   "dependencies": {
     "react": "^18.2.0",

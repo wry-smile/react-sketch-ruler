@@ -153,3 +153,4 @@ const SketchRule = (props: Partial<SketchRuleProps>) => {
 }
 
 export { SketchRule }
+export { CanvasConfigs, CanvasRulerProps, SketchRuleProps, MenuColorProfile, PaletteColorProfile, Shadow } from './types'

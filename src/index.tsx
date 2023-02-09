@@ -73,8 +73,8 @@ const SketchRule = (props: Partial<SketchRuleProps>) => {
 
   const [menuConfigs, setMenuConfigs] = useState<MenuColorProfile>(() => {
     const { palette } = props
-    const { menu } = palette!
-    const { bgColor, dividerColor, listItem } = menu || DEFAULT_MENU
+    const { menu = DEFAULT_MENU } = palette!
+    const { bgColor, dividerColor, listItem = DEFAULT_MENU.listItem } = menu
     return { bgColor, dividerColor, listItem }
   })
 

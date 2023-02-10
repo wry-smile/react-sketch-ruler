@@ -55,7 +55,7 @@ const SKETCH_RULE_DEFAULT_PROPS: Partial<SketchRuleProps> = {
 
 const SketchRule = (props: Partial<SketchRuleProps>) => {
   props = { ...SKETCH_RULE_DEFAULT_PROPS, ...props }
-  const [canvasConfigs, setCanvasConfigs] = useState<CanvasConfigs>(() => {
+  const [canvasConfigs] = useState<CanvasConfigs>(() => {
     const { ratio, palette } = props
     const { bgColor, longFGColor, shortFGColor, fontColor, shadowColor, lineColor, borderColor, cornerActiveColor } = palette!
     return {
@@ -71,7 +71,7 @@ const SketchRule = (props: Partial<SketchRuleProps>) => {
     } as CanvasConfigs
   })
 
-  const [menuConfigs, setMenuConfigs] = useState<MenuColorProfile>(() => {
+  const [menuConfigs] = useState<MenuColorProfile>(() => {
     const { palette } = props
     const { menu = DEFAULT_MENU } = palette!
     const { bgColor, dividerColor, listItem = DEFAULT_MENU.listItem } = menu
@@ -123,7 +123,6 @@ const SketchRule = (props: Partial<SketchRuleProps>) => {
       top: positionRecord.y,
     }
 
-    // console.log({ width, height, thick })
     return <StyledRuler id="mb-ruler" className="mb-ruler" isShowReferLine={isShowReferLine!} thick={thick!} {...canvasConfigs}
       onContextMenu={handleStyleRulerContextMenu}>
       {/* 水平方向 */}

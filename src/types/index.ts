@@ -14,21 +14,96 @@ export interface CanvasRulerProps {
   onHandleShowRightMenu: Fn
 }
 export interface SketchRuleProps {
+  /**
+   * @description scale ratio
+   * @type number
+   */
   scale: number
+
+  /**
+   * @description device pixel ratio
+   * @type number
+   */
   ratio: number
+
+  /**
+   * @description ruler width or height
+   * @type number
+   */
   thick: number
+
+  /**
+   * @description ruler width
+   * @type number
+   */
   width: number
+
+  /**
+   * @description ruler height
+   * @type number
+   */
   height: number
+
+  /**
+   * @description ruler x-axis start position
+   * @type number
+   */
   startX: number
+
+  /**
+   * @description ruler y-axis start position
+   * @type number
+   */
   startY: number
+
+  /**
+   * @description
+   */
   shadow: Shadow
+
+  /**
+   * @description horizontal direction line array
+   * @type number[]
+   */
   horLineArr: number[]
+
+  /**
+   * @description vertical direction line array
+   * @type number[]
+   */
   verLineArr: number[]
+
+  /**
+   * @description
+   */
   cornerActive: boolean
+
+  /**
+   * @description lang configuration
+   * @type 'zh-CN' | 'en'
+   */
   lang: 'zh-CN' | 'en'
+
+  /**
+   * @description
+   */
   isOpenMenuFeature: boolean
+
+  /**
+   * @description
+   */
   palette: PaletteColorProfile
+
+  /**
+   * @description show refer line
+   * @type boolean
+   */
   isShowReferLine: boolean
+
+  /**
+   * @description handle line callback
+   * @type Fn
+   */
   handleLine: Fn
   onCornerClick: Fn
   handleShowRuler: Fn

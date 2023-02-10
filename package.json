@@ -21,7 +21,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "rollup -c -w",
+    "dev": "rollup -c -w ",
+    "playground": "cd playground/react && pnpm dev",
     "build": "rollup -c",
     "release": "pnpm build && releaseKit && npm publish --access public"
   },

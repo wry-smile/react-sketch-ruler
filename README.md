@@ -1,1 +1,1 @@
-# react-sketch-ruler
+# @wry-smile/react-sketch-ruler

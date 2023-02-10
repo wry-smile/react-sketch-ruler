@@ -29,6 +29,7 @@ const CanvasRuler = (props: CanvasRulerProps) => {
   const drawRuler = () => {
     const { start, scale, width, height, selectStart, selectLength, canvasConfigs, vertical } = props
     const options: RulerOptions = { scale, width, height, canvasConfigs }
+
     if (vertical)
       drawVerticalRuler(canvasContext!, start, { y: selectStart, height: selectLength }, options)
     else

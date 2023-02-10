@@ -1,6 +1,6 @@
 import type { ReactEventHandler } from 'react'
-import { useRef, useState } from 'react'
-import { SketchRule as ReactRuler } from 'react-sketch-ruler'
+import { useEffect, useRef, useState } from 'react'
+import { SketchRule as ReactRuler } from '@wry-smile/react-sketch-ruler'
 
 import './App.css'
 const thick = 16
@@ -62,6 +62,10 @@ const App = () => {
 
   }
 
+  useEffect(() => {
+    appRef.current!.scrollLeft = containerRef.current!.getBoundingClientRect().width / 2 - 300
+  }, [])
+
   const render = () => {
     const { h, v } = lines
 
@@ -72,6 +76,7 @@ const App = () => {
       width: rectWidth,
       height: rectHeight,
       transform: `scale(${scale})`,
+      backgroundColor: 'blue',
     }
 
     const shadow = {
